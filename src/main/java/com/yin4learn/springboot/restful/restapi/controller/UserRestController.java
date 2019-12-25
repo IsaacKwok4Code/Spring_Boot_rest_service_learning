@@ -16,7 +16,7 @@ import com.yin4learn.springboot.restful.restapi.model.UserDetailsResponse;
 import com.yin4learn.springboot.restful.restapi.service.UserService;
 
 @RestController
-@RequestMapping("user")// http://localhost:8080/user
+@RequestMapping("users")// http://localhost:8080/users
 public class UserRestController {
 	
 	@Autowired
@@ -29,11 +29,11 @@ public class UserRestController {
 	
 	@PostMapping("/createUser")
 	public UserDetailsResponse createUser(@RequestBody UserDetailsRequest userinfo) {
-		UserDetailsResponse userinfoRs = new UserDetailsResponse();
-		UserDTO userDTO = new UserDTO();
-		BeanUtils.copyProperties(userinfo, userDTO);
-		UserDTO createdObj = userService.createUser(userDTO);
-		BeanUtils.copyProperties(createdObj, userinfoRs);
+		UserDetailsResponse userinfoRs = new UserDetailsResponse(); //return object
+		UserDTO userDTO = new UserDTO(); //create DTO
+		BeanUtils.copyProperties(userinfo, userDTO); //copy Rq data to DTO
+		UserDTO createdObj = userService.createUser(userDTO); //service call
+		BeanUtils.copyProperties(createdObj, userinfoRs);	//copy DTO data to return object
 		return userinfoRs;
 	}
 	

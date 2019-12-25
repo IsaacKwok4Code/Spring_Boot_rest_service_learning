@@ -1,11 +1,15 @@
 package com.yin4learn.springboot.restful.restapi.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity(name="users")
 public class UserEntity implements Serializable {
@@ -13,28 +17,33 @@ public class UserEntity implements Serializable {
 	private static final long serialVersionUID = -4323854291226848914L;
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id")
 	private long id;
 	
-	@Column(nullable=false)
+	@Column(nullable=false, name="user_id")
 	private String userId;
 	
-	@Column(nullable=false, length=50)
+	@Column(nullable=false, length=50, name="first_name")
 	private String firstName;
 	
-	@Column(nullable=false, length=50)
+	@Column(nullable=false, length=50, name="last_name")
 	private String lastName;
 	
-	@Column(nullable=false, length=120)
+	@Column(nullable=false, length=120, unique=true, name="email")
 	private String email;
 	
-	@Column(nullable=false)
+	@Column(nullable=false, name="encrypted_password")
 	private String encryptedPassword;
 	
+	@Column(name="email_token")
 	private String emailVerificationToken;
 	
-	@Column(nullable=false)
+	@Column(nullable=true, name="email_verification_status")
 	private boolean emailVerificationStatus = false;
+	
+	@OneToMany(mappedBy="userDetails", cascade=CascadeType.ALL)
+	private List<AddressEntity> addresses;
 
 	public long getId() {
 		return id;
